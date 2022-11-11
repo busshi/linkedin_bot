@@ -1,0 +1,6 @@
+.env
+.venv
+geckodriver.log
+*_screenshot.png
+docker-compose.yml
+entrypoint.sh
