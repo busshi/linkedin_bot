@@ -2,5 +2,10 @@
 .venv
 geckodriver.log
 *_screenshot.png
+
+__pycache__
+
 docker-compose.yml
 entrypoint.sh
+
+contacts.txt

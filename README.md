@@ -1,6 +1,6 @@
 # Linkedin Bot / Selenium
 
-### A basic linkedin bot used to accept incoming connexions requests code in Python.
+### A basic linkedin bot used to accept incoming connexions requests coded in Python.
 
 ## Functionalities:
 
@@ -11,20 +11,23 @@
   - dispo
   - techno
   - profile
-- Optional: send messages to a Telegram user with a telegram bot (created with BotFather) with new connexions requests and profile picture
+- Send messages to a Telegram user with a telegram bot (created with [BotFather](https://telegram.me/BotFather)) with new connexions requests and profile picture
 
 ## Usage
 
 - Install dependencies `pip install -r requirements.txt`
 - Copy env.sample to a .env file a replace with your custom values
-- Run the bot `python3 bot.py`
-- Run the bot with Telegram support `python3 bot.py -tg`
+- Run the bot without options `python3 bot.py`
+- Run the bot with Telegram support `python3 bot.py --telegram`
+- Run the bot without visualization `python3 bot.py --headless`
+- Combine both options `python3 bot.py --telegram --headless`
 
 ## Notes
 
 - This bot uses [Selenium](https://selenium.dev) and the Firefox webdriver so you will probably need Firefox to be installed on your system.
 - Sometimes, after login in, you can have a captcha to validate manually. You will have a message in the console and 10 seconds to validate the captcha.
 - Tested on macOS.
+- As Selenium uses classnames, id, xpath to find elements, it is possible it will not work anymore in the future without updating DOM_VARIABLES
 
 ## TODOS
 
