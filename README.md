@@ -27,9 +27,10 @@
 - This bot uses [Selenium](https://selenium.dev) and the Firefox webdriver so you will probably need Firefox to be installed on your system.
 - Sometimes, after login in, you can have a captcha to validate manually. You will have a message in the console and 10 seconds to validate the captcha.
 - Tested on macOS.
-- As Selenium uses classnames, ids, xpath to find elements, it is possible it will not work anymore in the future without updating DOM_VARIABLES (inside constants.py file)
+- As Selenium uses classnames, ids, xpath to find elements, it is possible it will not work anymore in the future without updating DOM_VARIABLES (inside constants.py file). This bot was created to work with a french browser, so classnames are in french...
 
 ## Todos
 
 - Use Linkedin API to avoid captcha
 - Dockerize service
+- Internalization

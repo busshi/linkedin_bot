@@ -1,7 +1,7 @@
 .env
 .venv
 geckodriver.log
-*_screenshot.png
+*.png
 
 __pycache__
 
