@@ -26,7 +26,7 @@ jobs:
       - name: Build Bot
         uses: docker/build-push-action@v2
         with:
-          context: ./Dockerfile
+          context: .
           tags: busshi/linkedin_bot:latest
           platforms: |-
             linux/arm64
