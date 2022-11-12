@@ -13,7 +13,7 @@
   - profile
   - contact
   - unmute
-- Send notifications to a Telegram account (userID needed, get it with [Telegrap API](https://core.telegram.org/bots/api)) with a telegram bot (you can easily create one with [BotFather](https://telegram.me/BotFather)) with new connexions requests and profile picture
+- Send notifications to a Telegram account (userID needed, get yours with [Telegram API](https://core.telegram.org/bots/api#getting-updates)) using a telegram bot (you can easily create one with [BotFather](https://telegram.me/BotFather)) with new connexions requests and profile picture
 
 ## Usage
 
