@@ -35,4 +35,4 @@
 
 - Use Linkedin API to avoid captcha
 - Dockerize service
-- Internalization
+- Intl
