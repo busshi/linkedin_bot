@@ -12,6 +12,7 @@ COLORS = {
 }    
 
 CONTACTS_FILE = 'contacts.txt'
+COOKIES_FILE = 'cookies.txt'
 
 ARGS_LIST = ['--headless', '--telegram']
 

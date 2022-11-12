@@ -1,4 +1,4 @@
-import os, time
+import os, time, pickle
 from Telegram import *
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
@@ -41,7 +41,20 @@ class Linkedin:
 
         except TimeoutException:
             self.exit_failure(with_telegram)
-        
+    
+
+    def save_cookies(self):
+        with open(COOKIES_FILE, 'wb') as f:
+            pickle.dump(self.bot.get_cookies(), f)
+
+
+    def load_cookies(self):
+        with open(COOKIES_FILE, 'rb') as f:
+            cookies = pickle.load(f)
+            for cookie in cookies:
+                self.bot.add_cookie(cookie)
+
+
     def login(self):
         bot = self.bot
 #        bot.fullscreen_window()
@@ -84,6 +97,8 @@ class Linkedin:
 
         except TimeoutException:
             pass
+            
+        self.save_cookies()
 
 
     def check_network(self, with_telegram):

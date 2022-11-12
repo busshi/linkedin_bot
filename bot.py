@@ -17,7 +17,13 @@ def run(args):
         with_telegram = True if '--telegram' in args else False
         headless = True if '--headless' in args else False
         linkedin = Linkedin(headless)
-        linkedin.login()
+        if os.path.exists(COOKIES_FILE):
+            linkedin.bot.get(LINKEDIN_URL)
+            linkedin.load_cookies()
+            linkedin.bot.get(LINKEDIN_URL)
+        else:
+            linkedin.login()
+
         while True:
             linkedin.is_logged_in(with_telegram)
             linkedin.check_network(with_telegram)
