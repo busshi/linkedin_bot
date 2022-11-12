@@ -1,7 +1,7 @@
 import os, time, pickle
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -15,7 +15,11 @@ class Linkedin:
     def __init__(self, headless):
         options = FirefoxOptions()
         if headless:
+            tg = Telegram()
+            tg.send_message(tg.id, "✅ Starting bot...")    
             options.add_argument("--headless")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
         options.add_argument('--disable-blink-features=AutomationControlled')
         self.username = os.getenv('USER_LOGIN')
         self.password = os.getenv('USER_PASS')
