@@ -6,6 +6,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 import onetimepass as otp
 from bot import log
 from constants import *
@@ -43,6 +44,7 @@ class Linkedin:
         
     def login(self):
         bot = self.bot
+#        bot.fullscreen_window()
         bot.get(LINKEDIN_URL)
 
         try:
@@ -87,7 +89,11 @@ class Linkedin:
     def check_network(self, with_telegram):
         log(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
         bot = self.bot
-        bot.get(LINKEDIN_NETWORK)
+        bot.get(LINKEDIN_NETWORK_URL)
+        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
+        buttons = WebDriverWait(bot, timeout = 3).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging']))
+        if (len(buttons) == 2):
+            buttons[1].click()
 
         while True:
             try:
@@ -98,21 +104,26 @@ class Linkedin:
                 invits = bot.find_elements(By.CLASS_NAME, DOM_VARIABLES['connexion_request'])
                 for elem in invits:
                     invit = elem.get_attribute("aria-label")
-                    user = str(invit)[25:]
+                    username = str(invit)[25:]
                     if 'Accepter' in elem.text:
-                        log(f"✋ New connexion request from {user}")
+                        log(f"✋ New connexion request from {username}")
                         if with_telegram:
                             tg = Telegram()
-                            icon = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, f"[alt^='Photo de {user}']"))
-                            tg.send_message(tg.id, f"✋ New connexion request from {user}")
-                            tg.save_screenshot(icon, user)
-#                        elem.click()
+                            icon = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, f"[alt^='Photo de {username}']"))
+                            tg.send_message(tg.id, f"✋ New connexion request from {username}")
+                            tg.save_screenshot(icon, username)
+
+                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion'])))
+                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
+                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASSNAME, DOM_VARIABLES['write_message'])).click()
+                        self.send_welcome_message(username, with_telegram)
+
                 break
 
 
     def check_messages(self, with_telegram):
         bot = self.bot
-        bot.get(LINKEDIN_MESSAGES)
+        bot.get(LINKEDIN_MESSAGES_URL)
         log (f"{COLORS['orange']}[+] Checking new unread messages...{COLORS['clear']}")
         try:
             messages = WebDriverWait(bot, timeout=8).until(lambda d: d.find_elements(By.CLASS_NAME, DOM_VARIABLES['unread_message']))
@@ -131,16 +142,16 @@ class Linkedin:
                 action = message.text[index + 2:]
                 username = message.text[:index - 1]
                 
-                is_bot_muted = self.is_bot_muted(username)
-                is_new_contact = self.is_new_contact(username)
+                contacts_file = open(CONTACTS_FILE, 'r')
+                contacts = contacts_file.read()
+                contacts_file.close()
+                is_bot_muted = self.is_bot_muted(username, contacts)
+                is_new_contact = self.is_new_contact(username, contacts)
 
                 if not is_bot_muted and is_new_contact:
                     self.send_welcome_message(username, with_telegram)                    
 
-                elif not is_bot_muted and not is_new_contact and action in ACTIONS:
-                    self.actions_reply(action, username, with_telegram)
-
-                elif is_bot_muted and action == 'unmute':
+                elif (not is_bot_muted and not is_new_contact and action in ACTIONS) or (is_bot_muted and action == 'unmute'):
                     self.actions_reply(action, username, with_telegram)
 
         except TimeoutException:
@@ -151,10 +162,10 @@ class Linkedin:
         log (f"{COLORS['orange']}[+] Sending welcome message to {username}{COLORS['clear']}")
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
-        # for msg in WELCOME_MESSAGE:
-        #     input_form.send_keys(msg)
-        #     input_form.send_keys(Keys.RETURN)
-        #     time.sleep(1)
+        for msg in WELCOME_MESSAGE:
+            input_form.send_keys(msg)
+            input_form.send_keys(Keys.RETURN)
+            time.sleep(1)
 
         if with_telegram:
             tg = Telegram()
@@ -186,30 +197,28 @@ class Linkedin:
 
             if action == 'contact':
                 contacts_file.write(contacts.replace(username, f'{username}_muted'))
-                tg.send_message(tg.id, f"🚨 [{username}] wants to talk with you...")
+                if with_telegram:
+                    tg.send_message(tg.id, f"🚨 [{username}] wants to talk with you...")
+            
             elif action == 'unmute':
                 contacts_file.write(contacts.replace(f'{username}_muted', username))
 
             contacts_file.close()
 
 
-    def is_new_contact(self, username):
-        contacts_file = open(CONTACTS_FILE, 'r')
-        contacts = contacts_file.read()
-        contacts_file.close()
+    def is_new_contact(self, username, contacts):
+#        contacts_file = open(CONTACTS_FILE, 'r')
+ #       contacts = contacts_file.read()
+  #      contacts_file.close()
 
         if username in contacts:
-            log('not new contact')
             return False        
-        log('new contact')
         return True
 
-    def is_bot_muted(self, username):
-        contacts_file = open(CONTACTS_FILE, 'r')
-        contacts = contacts_file.read()
-        contacts_file.close()
+    def is_bot_muted(self, username, contacts):
+   #     contacts_file = open(CONTACTS_FILE, 'r')
+    #    contacts = contacts_file.read()
+     #   contacts_file.close()
         if f'{username}_muted\n' in contacts:
-            log('bot muted')
             return True
-        log('bot not muted')
         return False

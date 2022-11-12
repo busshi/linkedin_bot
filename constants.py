@@ -1,6 +1,6 @@
 LINKEDIN_URL = 'https://www.linkedin.com'
-LINKEDIN_NETWORK = f'{LINKEDIN_URL}/mynetwork'
-LINKEDIN_MESSAGES = f'{LINKEDIN_URL}/messaging'
+LINKEDIN_NETWORK_URL = f'{LINKEDIN_URL}/mynetwork'
+LINKEDIN_MESSAGES_URL = f'{LINKEDIN_URL}/messaging'
 
 TELEGRAM_URL = 'https://api.telegram.org/'
 
@@ -30,8 +30,13 @@ DOM_VARIABLES = {
     'login_password': 'session_password',
     'human_check': "//*[text()='Procédons à une petite vérification de sécurité']",
     'tfa_pin': 'input__phone_verification_pin',
+    'reduce_messaging': "//button[contains(@class, 'artdeco-button--muted artdeco-button--1 artdeco-button--tertiary')]",
     'new_connexion': 'invitation-card__action-btn',
     'connexion_request': 'artdeco-button--secondary',
+    'accept_connexion': "//button[contains(@class, 'artdeco-button artdeco-button--2 artdeco-button--secondary ember-view invitation-card__action-btn')]",
+    'write_message': 'artdeco-button__text',
+    'search_conversations': 'search-conversations',
+    'search_message_contact': 'msg-conversation-card__content--selectable',
     'unread_message': 'msg-conversation-card__message-snippet--unread',
     'message_input_form': 'div.msg-form__contenteditable'
 }
