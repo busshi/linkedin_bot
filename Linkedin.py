@@ -114,7 +114,8 @@ class Linkedin:
         while True:
             try:
                 WebDriverWait(bot, timeout = 5).until(lambda d: d.find_elements(By.CLASS_NAME, DOM_VARIABLES['new_connexion']))
-            except NoSuchElementException:
+            except TimeoutException:
+                log ('👥 Network checked')
                 break
             finally :
                 invits = bot.find_elements(By.CLASS_NAME, DOM_VARIABLES['connexion_request'])
