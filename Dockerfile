@@ -1,5 +1,7 @@
 FROM        ubuntu:20.04
 
+COPY        ./bot/ /opt/app/
+
 WORKDIR     /opt/app/bot
 
 RUN         apt-get update && apt-get install -y \

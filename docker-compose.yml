@@ -2,22 +2,23 @@ version: "3"
 
 services:
   bot:
-    image: ubuntu:20.04
+    image: busshi/linkedin_bot:latest
+    # image: ubuntu:20.04
 
-    working_dir: /opt/app/bot
+    # working_dir: /opt/app/bot
 
-    command:
-      - apt-get update && apt-get install -y \
-        python3 python3-pip firefox-geckodriver \
-        && rm -rf /var/lib/apt/lists/*
-      - pip3 install --no-cache-dir selenium onetimepass requests python-dotenv
-      - firefox -CreateProfile "headless /moz-headless" -headless
+    # command:
+    #   - apt-get update && apt-get install -y \
+    #     python3 python3-pip firefox-geckodriver \
+    #     && rm -rf /var/lib/apt/lists/*
+    #   - pip3 install --no-cache-dir selenium onetimepass requests python-dotenv
+    #   - firefox -CreateProfile "headless /moz-headless" -headless
 
-    container_name: linkedin_bot
+    # container_name: linkedin_bot
 
-    entrypoint: bash -c 'python3 bot.py --telegram --headless'
+    # entrypoint: bash -c 'python3 bot.py --telegram --headless'
 
-    volumes:
-      - ./bot:/opt/app/bot
+    # volumes:
+    #   - ./bot:/opt/app/bot
 
     restart: unless-stopped
