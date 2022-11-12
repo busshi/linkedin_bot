@@ -13,8 +13,8 @@ COLORS = {
     'clear': '\033[0m'
 }    
 
-CONTACTS_FILE = f'{os.getcwd()}/contacts.txt'
-COOKIES_FILE = f'{os.getcwd()}/.cookies'
+CONTACTS_FILE = f'{os.getcwd()}/data/contacts.txt'
+COOKIES_FILE = f'{os.getcwd()}/data/.cookies'
 
 ARGS_LIST = ['--headless', '--telegram']
 
