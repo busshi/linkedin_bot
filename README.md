@@ -19,18 +19,18 @@
 
 ## Usage
 
-- Install dependencies ```pip install -r requirements.txt```
+- Install dependencies `pip install -r requirements.txt`
 - Copy env.sample to a .env file a replace with your custom values
-- Run the bot without options ```python3 bot/bot.py```
-- Run the bot with Telegram support ```python3 bot/bot.py --telegram```
-- Run the bot without visualization ```python3 bot/bot.py --headless```
-- Combine both options ```python3 bot/bot.py --telegram --headless```
+- Run the bot without options `python3 bot/bot.py`
+- Run the bot with Telegram support `python3 bot/bot.py --telegram`
+- Run the bot without visualization `python3 bot/bot.py --headless`
+- Combine both options `python3 bot/bot.py --telegram --headless`
 
 ## Docker usage
 
 Before use docker, think about login in a virtual environment to get a cookie. It will avoid human captch verification. Then you will be able to run it headless inside a container.
 
-```docker-compose up -d```
+`docker-compose up -d`
 
 ## Notes
 
