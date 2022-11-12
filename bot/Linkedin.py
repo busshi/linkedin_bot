@@ -13,10 +13,14 @@ from bot import log
 
 class Linkedin:
     def __init__(self, headless):
+        """
+        Init webdriver
+        """
+
         options = FirefoxOptions()
         if headless:
             tg = Telegram()
-            tg.send_message(tg.id, "✅ Starting bot...")    
+            tg.send_message(tg.id, "✅ Starting bot...", True)    
             options.add_argument("--headless")
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
@@ -27,15 +31,24 @@ class Linkedin:
         self.bot = webdriver.Firefox(options = options)
 
     def exit_failure(self, with_telegram):
+        """
+        Exit program
+        """
+
         bot = self.bot
         log (f"{COLORS['red']}[+] Unable to login! Exiting...{COLORS['clear']}")
         if with_telegram:
             tg = Telegram()
-            tg.send_message(tg.id, "❌ Bot exited!")
+            tg.send_message(tg.id, "❌ Bot exited!", True)
         bot.quit()
         exit (1)
 
+
     def is_logged_in(self, with_telegram):
+        """
+        Check if user still logged in
+        """
+
         bot = self.bot
         try:
             if WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.TAG_NAME, 'a')).text == 'S’identifier':
@@ -49,11 +62,19 @@ class Linkedin:
     
 
     def save_cookies(self):
+        """
+        Store cookies in a file
+        """
+
         with open(COOKIES_FILE, 'wb') as f:
             pickle.dump(self.bot.get_cookies(), f)
 
 
     def load_cookies(self):
+        """
+        Load cookies from a file
+        """
+
         with open(COOKIES_FILE, 'rb') as f:
             cookies = pickle.load(f)
             for cookie in cookies:
@@ -61,6 +82,10 @@ class Linkedin:
 
 
     def login(self):
+        """
+        Login to Linkedin
+        """
+
         bot = self.bot
 #        bot.fullscreen_window()
         bot.get(LINKEDIN_URL)
@@ -107,6 +132,10 @@ class Linkedin:
             
 
     def check_network(self, with_telegram):
+        """
+        Check incoming connexion requests
+        """
+
         log(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
         bot = self.bot
         bot.get(LINKEDIN_NETWORK_URL)
@@ -131,7 +160,7 @@ class Linkedin:
                         if with_telegram:
                             tg = Telegram()
                             icon = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, f"[alt^='Photo de {username}']"))
-                            tg.send_message(tg.id, f"✋ New connexion request from {username}")
+                            tg.send_message(tg.id, f"✋ New connexion request from {username}", False)
                             tg.save_screenshot(icon, username)
 
                         WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion'])))
@@ -143,6 +172,10 @@ class Linkedin:
 
 
     def check_messages(self, with_telegram):
+        """
+        Check messaging to auto send welcome message and handle bot actions
+        """
+
         bot = self.bot
         bot.get(LINKEDIN_MESSAGES_URL)
         log (f"{COLORS['orange']}[+] Checking new unread messages...{COLORS['clear']}")
@@ -156,11 +189,11 @@ class Linkedin:
                 print (message.text)
                 if with_telegram:
                     tg = Telegram()
-                    tg.send_message(tg.id, f"📥 New unread message from {message.text}")
+                    tg.send_message(tg.id, f"📥 New unread message from {message.text}", True)
                 message.click()
 
                 index = message.text.find(':')
-                action = message.text[index + 2:]
+                action = message.text[index + 2:].lower()
                 username = message.text[:index - 1]
                 
                 contacts_file = open(CONTACTS_FILE, 'r')
@@ -180,6 +213,10 @@ class Linkedin:
     
 
     def send_welcome_message(self, username, with_telegram):
+        """
+        Send welcome message and add contact to list
+        """
+
         log (f"{COLORS['orange']}[+] Sending welcome message to {username}{COLORS['clear']}")
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
@@ -190,7 +227,7 @@ class Linkedin:
 
         if with_telegram:
             tg = Telegram()
-            tg.send_message(tg.id, f"📤 Welcome message sent to [{username}]")
+            tg.send_message(tg.id, f"📤 Welcome message sent to [{username}]", True)
         
         with open(CONTACTS_FILE, 'a') as f:
             f.write(f'{username}\n')
@@ -198,6 +235,15 @@ class Linkedin:
                         
 
     def actions_reply(self, action, username, with_telegram):
+        """
+        Handle bot actions :
+            - profile
+            - techno
+            - dispo
+            - contact
+            - unmute
+        """
+
         log (f"[+] Action [{action}] required by [{username}]")
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
@@ -208,7 +254,7 @@ class Linkedin:
 
         if with_telegram:
             tg = Telegram()
-            tg.send_message(tg.id, f"🗣️ Action [{action}] asked by [{username}]")
+            tg.send_message(tg.id, f"🗣️ Action [{action}] asked by [{username}]", True)
         
         if action == 'contact' or action == 'unmute':
             contacts_file = open(CONTACTS_FILE, 'r')
@@ -219,7 +265,7 @@ class Linkedin:
             if action == 'contact':
                 contacts_file.write(contacts.replace(username, f'{username}_muted'))
                 if with_telegram:
-                    tg.send_message(tg.id, f"🚨 [{username}] wants to talk with you...")
+                    tg.send_message(tg.id, f"🚨 [{username}] wants to talk with you...", False)
             
             elif action == 'unmute':
                 contacts_file.write(contacts.replace(f'{username}_muted', username))

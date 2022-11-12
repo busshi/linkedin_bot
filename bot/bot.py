@@ -8,6 +8,10 @@ from Linkedin import *
 load_dotenv()
 
 def log(msg):
+    """
+    STDOUT logger
+    """
+
     loc_time = time.localtime()
     time_string = time.strftime("[%m-%d-%Y %H:%M:%s]", loc_time)
     print(f'{time_string} {msg}')
