@@ -1,3 +1,5 @@
+import os
+
 LINKEDIN_URL = 'https://www.linkedin.com'
 LINKEDIN_NETWORK_URL = f'{LINKEDIN_URL}/mynetwork'
 LINKEDIN_MESSAGES_URL = f'{LINKEDIN_URL}/messaging'
@@ -11,8 +13,8 @@ COLORS = {
     'clear': '\033[0m'
 }    
 
-CONTACTS_FILE = './data/contacts.txt'
-COOKIES_FILE = './data/.cookies'
+CONTACTS_FILE = f'{os.getcwd()}/contacts.txt'
+COOKIES_FILE = f'{os.getcwd()}/.cookies'
 
 ARGS_LIST = ['--headless', '--telegram']
 
