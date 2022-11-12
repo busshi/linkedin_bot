@@ -38,6 +38,7 @@ class Linkedin:
                 self.exit_failure(with_telegram)
 
             log(f"{COLORS['green']}[+] Logged in{COLORS['clear']}")
+            self.save_cookies()
 
         except TimeoutException:
             self.exit_failure(with_telegram)
@@ -76,7 +77,7 @@ class Linkedin:
         ### HUMAN CHECK
         try:
             WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['human_check']))
-            log(f"{COLORS['red']}[+] Manual validation required! Check the browser.{COLORS['clear']}")
+            log(f"{COLORS['red']}[+] Human validation needed! Check the browser.{COLORS['clear']}")
             for i in range(11):
                 if i == 10:
                     print('\r0') 
@@ -90,16 +91,16 @@ class Linkedin:
 
         ### TFA
         try:
-            tfa = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_elements(By.ID, DOM_VARIABLES['tfa_pin']))
+            tfa = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.ID, DOM_VARIABLES['tfa_pin']))
+            log('[+] TFA required to login')
             tfa_code = otp.get_totp(self.token)
             tfa.send_keys(tfa_code)
             tfa.send_keys(Keys.RETURN)
+            time.sleep(3)
 
         except TimeoutException:
             pass
             
-        self.save_cookies()
-
 
     def check_network(self, with_telegram):
         log(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
