@@ -161,8 +161,8 @@ class Linkedin:
                 contacts_file = open(CONTACTS_FILE, 'r')
                 contacts = contacts_file.read()
                 contacts_file.close()
-                is_bot_muted = self.is_bot_muted(username, contacts)
-                is_new_contact = self.is_new_contact(username, contacts)
+                is_bot_muted = True if f'{username}_muted\n' in contacts else False
+                is_new_contact = False if username in contacts else True
 
                 if not is_bot_muted and is_new_contact:
                     self.send_welcome_message(username, with_telegram)                    
@@ -220,21 +220,3 @@ class Linkedin:
                 contacts_file.write(contacts.replace(f'{username}_muted', username))
 
             contacts_file.close()
-
-
-    def is_new_contact(self, username, contacts):
-#        contacts_file = open(CONTACTS_FILE, 'r')
- #       contacts = contacts_file.read()
-  #      contacts_file.close()
-
-        if username in contacts:
-            return False        
-        return True
-
-    def is_bot_muted(self, username, contacts):
-   #     contacts_file = open(CONTACTS_FILE, 'r')
-    #    contacts = contacts_file.read()
-     #   contacts_file.close()
-        if f'{username}_muted\n' in contacts:
-            return True
-        return False
