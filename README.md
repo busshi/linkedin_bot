@@ -1,3 +1,5 @@
+![deploy](https://github.com/busshi/linkedin_bot/actions/workflows/build.yml/badge.svg)
+
 # Linkedin Bot / Selenium
 
 ### A basic linkedin bot used to accept incoming connexions requests coded in Python.
@@ -18,11 +20,11 @@
 ## Usage
 
 - Install dependencies ```pip install -r requirements.txt```
-- Copy env.sample inside bot diretory to a .env file a replace with your custom values
-- Run the bot without options ```cd bot && python3 bot.py```
-- Run the bot with Telegram support ```cd bot && python3 bot.py --telegram```
-- Run the bot without visualization ```cd bot && python3 bot.py --headless```
-- Combine both options ```cd bot && python3 bot.py --telegram --headless```
+- Copy env.sample to a .env file a replace with your custom values
+- Run the bot without options ```python3 bot/bot.py```
+- Run the bot with Telegram support ```python3 bot/bot.py --telegram```
+- Run the bot without visualization ```python3 bot/bot.py --headless```
+- Combine both options ```python3 bot/bot.py --telegram --headless```
 
 ## Docker usage
 
@@ -36,6 +38,7 @@ Before use docker, think about login in a virtual environment to get a cookie. I
 - Sometimes, after login in, you can have a captcha to validate manually. You will have a message in the console and 10 seconds to validate the captcha.
 - As Selenium uses classnames, ids, xpath to find elements, it is possible it will not work anymore in the future without updating DOM_VARIABLES (inside constants.py file). This bot was created to work with a french browser, so classnames are in french...
 - Tested on macOS.
+- Also available on [Dockerhub](https://hub.docker.com/repository/docker/busshi/linkedin_bot)
 
 ## Todos
 
