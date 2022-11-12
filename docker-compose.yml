@@ -4,9 +4,9 @@ services:
   bot:
     image: ubuntu:20.04
 
-    build:
-      args:
-        - DEBIAN_FRONTEND=noninteractive
+    # build:
+    #   args:
+    #     - DEBIAN_FRONTEND=noninteractive
 
     working_dir: /opt/app/bot
 

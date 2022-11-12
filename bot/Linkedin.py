@@ -208,7 +208,7 @@ class Linkedin:
 
         if with_telegram:
             tg = Telegram()
-            tg.send_message(tg.id, f"📥 Action [{action}] asked by [{username}]")
+            tg.send_message(tg.id, f"🗣️ Action [{action}] asked by [{username}]")
         
         if action == 'contact' or action == 'unmute':
             contacts_file = open(CONTACTS_FILE, 'r')

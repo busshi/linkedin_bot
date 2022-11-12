@@ -6,4 +6,4 @@ geckodriver.log
 __pycache__
 
 contacts.txt
-cookies.txt
+.cookies
