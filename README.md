@@ -19,7 +19,7 @@
 
 - Install dependencies `pip install -r requirements.txt`
 - Copy env.sample to a .env file a replace with your custom values
-- Run the bot without options `python3 bot.py`
+- Run the bot without options `python3 bot/bot.py`
 - Run the bot with Telegram support `python3 bot.py --telegram`
 - Run the bot without visualization `python3 bot.py --headless`
 - Combine both options `python3 bot.py --telegram --headless`

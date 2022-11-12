@@ -1,5 +1,4 @@
 import os, time, pickle
-from Telegram import *
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -8,8 +7,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import onetimepass as otp
-from bot import log
+from Telegram import *
 from constants import *
+from bot import log
 
 class Linkedin:
     def __init__(self, headless):
