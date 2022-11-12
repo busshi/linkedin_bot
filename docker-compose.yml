@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  bot:
+  linkedin-bot:
     image: busshi/linkedin_bot:latest
     # image: ubuntu:20.04
 
-    # working_dir: /opt/app/bot
+    working_dir: /opt/app/bot
 
     # command:
     #   - apt-get update && apt-get install -y \
@@ -14,11 +14,11 @@ services:
     #   - pip3 install --no-cache-dir selenium onetimepass requests python-dotenv
     #   - firefox -CreateProfile "headless /moz-headless" -headless
 
-    # container_name: linkedin_bot
+    container_name: linkedin_bot
 
     # entrypoint: bash -c 'python3 bot.py --telegram --headless'
 
-    # volumes:
-    #   - ./bot:/opt/app/bot
+    volumes:
+      - .env:/opt/app/bot/.env
 
     restart: unless-stopped

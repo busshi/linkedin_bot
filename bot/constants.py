@@ -11,8 +11,8 @@ COLORS = {
     'clear': '\033[0m'
 }    
 
-CONTACTS_FILE = 'contacts.txt'
-COOKIES_FILE = '.cookies'
+CONTACTS_FILE = 'data/contacts.txt'
+COOKIES_FILE = 'data/.cookies'
 
 ARGS_LIST = ['--headless', '--telegram']
 

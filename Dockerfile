@@ -2,7 +2,7 @@ FROM        ubuntu:20.04
 
 ENV         DEBIAN_FRONTEND=noninteractive 
 
-COPY        ./bot/ /opt/app/
+COPY        ./bot/ /opt/app/bot
 
 WORKDIR     /opt/app/bot
 

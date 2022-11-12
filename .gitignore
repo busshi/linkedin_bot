@@ -2,6 +2,7 @@
 .venv
 geckodriver.log
 *.png
+data
 
 __pycache__
 
