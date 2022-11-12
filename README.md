@@ -11,6 +11,8 @@
   - dispo
   - techno
   - profile
+  - contact
+  - unmute
 - Send messages to a Telegram user with a telegram bot (created with [BotFather](https://telegram.me/BotFather)) with new connexions requests and profile picture
 
 ## Usage
