@@ -33,6 +33,6 @@
 
 ## Todos
 
-- Use Linkedin API to avoid captcha
-- Dockerize service
-- Intl
+[] Use Linkedin API to avoid captcha
+[] Dockerize service
+[] Intl
