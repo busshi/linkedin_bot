@@ -31,7 +31,7 @@ class Linkedin:
         log (f"{COLORS['red']}[+] Unable to login! Exiting...{COLORS['clear']}")
         if with_telegram:
             tg = Telegram()
-            tg.send_message(tg.id, "❌ Error while loging in Linkedin...")
+            tg.send_message(tg.id, "❌ Bot exited!")
         bot.quit()
         exit (1)
 
