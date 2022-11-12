@@ -5,7 +5,7 @@ services:
     image: busshi/linkedin_bot:latest
     # image: ubuntu:20.04
 
-    working_dir: /opt/app/bot
+    # working_dir: /opt/app/bot
 
     # command:
     #   - apt-get update && apt-get install -y \
