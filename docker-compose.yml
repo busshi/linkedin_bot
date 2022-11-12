@@ -19,3 +19,5 @@ services:
 
     volumes:
       - ./bot:/opt/app/bot
+
+    restart: unless-stopped

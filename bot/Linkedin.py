@@ -161,7 +161,7 @@ class Linkedin:
                             tg = Telegram()
                             icon = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, f"[alt^='Photo de {username}']"))
                             tg.send_message(tg.id, f"✋ New connexion request from {username}", False)
-                            tg.save_screenshot(icon, username)
+                            self.save_screenshot(icon, username, tg)
 
                         WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion'])))
                         WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
@@ -271,3 +271,17 @@ class Linkedin:
                 contacts_file.write(contacts.replace(f'{username}_muted', username))
 
             contacts_file.close()
+
+
+    def save_screenshot(self, elem, user, tg):
+        """
+        Take a screenshot of an element
+        """
+        log(f"{COLORS['orange']}[+] Taking screenshot of {user}...{COLORS['clear']}")
+        loc_time = time.localtime()
+        time_string = time.strftime("%d-%m-%Y", loc_time)
+        filename = f"{time_string}_{user}.png"
+        elem.screenshot(filename)      
+        tg.send_photo(self.id, filename)
+        log('📤 Screenshot sent')
+

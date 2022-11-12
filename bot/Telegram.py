@@ -1,5 +1,4 @@
-import time, requests, os
-from bot import log
+import requests, os
 from constants import *
 
 class Telegram:
@@ -15,24 +14,12 @@ class Telegram:
         data = dict(chat_id = dest, text = text, disable_notification = disable_notification)
         requests.post(url, data=data).json()
 
-    def save_screenshot(self, elem, user):
+    def send_photo(self, dest, filename):
         """
-        Take a screenshot of an element
-        """
-        log(f"{COLORS['orange']}[+] Taking screenshot of {user}...{COLORS['clear']}")
-        loc_time = time.localtime()
-        time_string = time.strftime("%d-%m-%Y", loc_time)
-        filename = f"{time_string}_{user}.png"
-        elem.screenshot(filename)
-        self.send_screenshot(self.id, filename)
-
-    def send_screenshot(self, dest, filename):
-        """
-        Send a screenshot file
+        Send a photo file
         """
         url = f'{self.api}/sendPhoto'
         file = {'photo': open(filename, "rb")}
         data = dict(chat_id = dest, disable_notification = True)
         requests.post(url, data = data, files = file).json()
-        log('📤 Screenshot sent')
         os.remove(filename)
