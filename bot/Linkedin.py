@@ -165,7 +165,7 @@ class Linkedin:
 
                         WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion'])))
                         WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
-                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASSNAME, DOM_VARIABLES['write_message'])).click()
+                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASS_NAME, DOM_VARIABLES['write_message'])).click()
                         self.send_welcome_message(username, with_telegram)
 
                 break
@@ -282,6 +282,6 @@ class Linkedin:
         time_string = time.strftime("%d-%m-%Y", loc_time)
         filename = f"{time_string}_{user}.png"
         elem.screenshot(filename)      
-        tg.send_photo(self.id, filename)
+        tg.send_photo(tg.id, filename)
         log('📤 Screenshot sent')
 
