@@ -7,15 +7,6 @@ from Linkedin import *
 
 load_dotenv()
 
-def log(msg):
-    """
-    STDOUT logger
-    """
-
-    loc_time = time.localtime()
-    time_string = time.strftime("[%m-%d-%Y %H:%M:%s]", loc_time)
-    print(f'{time_string} {msg}')
-
 def run(args):
     try:
         with_telegram = True if '--telegram' in args else False
@@ -28,11 +19,16 @@ def run(args):
         else:
             linkedin.login()
 
+        x=0
         while True:
             linkedin.is_logged_in(with_telegram)
-            linkedin.check_network(with_telegram)
+            if x == 10:
+                x = 0
+            if x == 0:
+                linkedin.check_network(with_telegram)
             linkedin.check_messages(with_telegram)
             time.sleep(30)
+            x += 1
 
     except KeyboardInterrupt:
         linkedin.bot.quit()

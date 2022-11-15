@@ -1,4 +1,4 @@
-import os, time, pickle
+import os, time, pickle, logging
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.common.exceptions import TimeoutException
@@ -9,7 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import onetimepass as otp
 from Telegram import *
 from constants import *
-from bot import log
+
+logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s %(message)s')
 
 class Linkedin:
     def __init__(self, headless):
@@ -36,7 +37,7 @@ class Linkedin:
         """
 
         bot = self.bot
-        log (f"{COLORS['red']}[+] Unable to login! Exiting...{COLORS['clear']}")
+        logging.critical(f"{COLORS['red']}[+] Unable to login! Exiting...{COLORS['clear']}")
         if with_telegram:
             tg = Telegram()
             tg.send_message(tg.id, "❌ Bot exited!", True)
@@ -54,7 +55,7 @@ class Linkedin:
             if WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.TAG_NAME, 'a')).text == 'S’identifier':
                 self.exit_failure(with_telegram)
 
-            log(f"{COLORS['green']}[+] Logged in{COLORS['clear']}")
+            logging.info(f"{COLORS['green']}[+] Logged in{COLORS['clear']}")
             self.save_cookies()
 
         except TimeoutException:
@@ -96,17 +97,17 @@ class Linkedin:
             password = WebDriverWait(bot, timeout = 3).until(lambda d: d.find_element(By.ID, DOM_VARIABLES['login_password']))
             password.send_keys(self.password)
             password.send_keys(Keys.RETURN)
-            log(f"{COLORS['orange']}[+] Loging in...{COLORS['clear']}")
+            logging.info(f"{COLORS['orange']}[+] Loging in...{COLORS['clear']}")
         
         except Exception:
-            log (f"{COLORS['red']}[+] Unable to login! Exiting...{COLORS['clear']}")
+            logging.critical(f"{COLORS['red']}[+] Unable to login! Exiting...{COLORS['clear']}")
             exit (1)
         
 
         ### HUMAN CHECK
         try:
             WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['human_check']))
-            log(f"{COLORS['red']}[+] Human validation needed! Check the browser.{COLORS['clear']}")
+            logging.error(f"{COLORS['red']}[+] Human validation needed! Check the browser.{COLORS['clear']}")
             for i in range(11):
                 if i == 10:
                     print('\r0') 
@@ -115,13 +116,13 @@ class Linkedin:
                 time.sleep(1)
 
         except TimeoutException:
-            log(f"{COLORS['green']}[+] Apparently logged in{COLORS['clear']}")
+            logging.info(f"{COLORS['green']}[+] Apparently logged in{COLORS['clear']}")
 
 
         ### TFA
         try:
             tfa = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.ID, DOM_VARIABLES['tfa_pin']))
-            log('[+] TFA required to login')
+            logging.warning('[+] TFA required to login')
             tfa_code = otp.get_totp(self.token)
             tfa.send_keys(tfa_code)
             tfa.send_keys(Keys.RETURN)
@@ -136,19 +137,20 @@ class Linkedin:
         Check incoming connexion requests
         """
 
-        log(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
+        logging.info(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
         bot = self.bot
         bot.get(LINKEDIN_NETWORK_URL)
         WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
         buttons = WebDriverWait(bot, timeout = 3).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging']))
         if (len(buttons) == 2):
+            time.sleep(3)
             buttons[1].click()
 
         while True:
             try:
                 WebDriverWait(bot, timeout = 5).until(lambda d: d.find_elements(By.CLASS_NAME, DOM_VARIABLES['new_connexion']))
             except TimeoutException:
-                log ('👥 Network checked')
+                logging.info('👥 Network checked')
                 break
             finally :
                 invits = bot.find_elements(By.CLASS_NAME, DOM_VARIABLES['connexion_request'])
@@ -156,16 +158,19 @@ class Linkedin:
                     invit = elem.get_attribute("aria-label")
                     username = str(invit)[25:]
                     if 'Accepter' in elem.text:
-                        log(f"✋ New connexion request from {username}")
+                        logging.info(f"✋ New connexion request from {username}")
                         if with_telegram:
                             tg = Telegram()
                             icon = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, f"[alt^='Photo de {username}']"))
                             tg.send_message(tg.id, f"✋ New connexion request from {username}", False)
                             self.save_screenshot(icon, username, tg)
 
-                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion'])))
-                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
+                        print('ici')
+                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion']))).click()
+                        #WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
+                        print('ici2')
                         WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASS_NAME, DOM_VARIABLES['write_message'])).click()
+                        print('ici3')
                         self.send_welcome_message(username, with_telegram)
 
                 break
@@ -178,14 +183,14 @@ class Linkedin:
 
         bot = self.bot
         bot.get(LINKEDIN_MESSAGES_URL)
-        log (f"{COLORS['orange']}[+] Checking new unread messages...{COLORS['clear']}")
+        logging.info(f"{COLORS['orange']}[+] Checking new unread messages...{COLORS['clear']}")
         try:
             messages = WebDriverWait(bot, timeout=8).until(lambda d: d.find_elements(By.CLASS_NAME, DOM_VARIABLES['unread_message']))
             if not len(messages):
-                log ('No new message')
+                logging.info('No new message')
 
             for message in messages:
-                log ('📥 New message:')
+                logging.info('📥 New message:')
                 print (message.text)
                 if with_telegram:
                     tg = Telegram()
@@ -209,7 +214,7 @@ class Linkedin:
                     self.actions_reply(action, username, with_telegram)
 
         except TimeoutException:
-            log ('📨 Messages checked...')
+            logging.info('📨 Messages checked...')
     
 
     def send_welcome_message(self, username, with_telegram):
@@ -217,7 +222,7 @@ class Linkedin:
         Send welcome message and add contact to list
         """
 
-        log (f"{COLORS['orange']}[+] Sending welcome message to {username}{COLORS['clear']}")
+        logging.ingo(f"{COLORS['orange']}[+] Sending welcome message to {username}{COLORS['clear']}")
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
         for msg in WELCOME_MESSAGE:
@@ -244,7 +249,7 @@ class Linkedin:
             - unmute
         """
 
-        log (f"[+] Action [{action}] required by [{username}]")
+        logging.info(f"[+] Action [{action}] required by [{username}]")
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
         for msg in ACTIONS[action]:
@@ -277,11 +282,11 @@ class Linkedin:
         """
         Take a screenshot of an element
         """
-        log(f"{COLORS['orange']}[+] Taking screenshot of {user}...{COLORS['clear']}")
+        logging.info(f"{COLORS['orange']}[+] Taking screenshot of {user}...{COLORS['clear']}")
         loc_time = time.localtime()
         time_string = time.strftime("%d-%m-%Y", loc_time)
         filename = f"{time_string}_{user}.png"
         elem.screenshot(filename)      
         tg.send_photo(tg.id, filename)
-        log('📤 Screenshot sent')
+        logging.info('📤 Screenshot sent')
 
