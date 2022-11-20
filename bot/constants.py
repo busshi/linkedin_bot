@@ -18,7 +18,7 @@ COOKIES_FILE = f'{os.getcwd()}/data/.cookies'
 
 ARGS_LIST = ['--headless', '--telegram']
 
-WELCOME_MESSAGE = ['👋', 'Bonjour,', 'Bienvenue dans mon réseau.', 'Si vous voulez en savoir plus sur moi, vous pouvez demander à mon bot quelques informations basiques à l\'aide des commandes suivantes :', '- profile : pour en savoir un peu plus sur moi', '- techno : pour connaître mes technologies préférées', '- dispo : pour connaître mes disponibilités', '- contact : pour me parler directement au lieu de communiquer avec un bot', '- unmute : pour réactiver le bot après une demande de contact']
+WELCOME_MESSAGE = ['👋', 'Bonjour,', 'Bienvenue dans mon réseau.', 'Si vous voulez en savoir plus sur moi, vous pouvez demander à mon bot quelques informations basiques à l\'aide des commandes suivantes :', '- profile : pour en savoir un peu plus sur moi', '- techno : pour connaître mes technologies préférées', '- dispo : pour connaître mes disponibilités', '- contact : pour communiquer avec et désactiver le bot', '- unmute : pour réactiver le bot après une demande de contact']
 
 ACTIONS = {
     'dispo': ['Je suis actuellement disponible les soirs et weekends pour collaborer avec vous.', 'N\'hésitez pas à me contacter pour en discuter, je suis assez flexible sur l\'emploi du temps'],
@@ -41,5 +41,9 @@ DOM_VARIABLES = {
     'search_conversations': 'search-conversations',
     'search_message_contact': 'msg-conversation-card__content--selectable',
     'unread_message': 'msg-conversation-card__message-snippet--unread',
+    'username': "thread-detail-jump-target",
     'message_input_form': 'div.msg-form__contenteditable',
 }
+
+LONG_TIMEOUT = 30
+SHORT_TIMEOUT = 3

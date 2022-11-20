@@ -19,15 +19,17 @@ def run(args):
         else:
             linkedin.login()
 
-        x=0
+        x = 0
         while True:
             linkedin.is_logged_in(with_telegram)
+            print(linkedin.loop_timeout)
             if x == 10:
                 x = 0
+                linkedin.loop_timeout = LONG_TIMEOUT
             if x == 0:
                 linkedin.check_network(with_telegram)
             linkedin.check_messages(with_telegram)
-            time.sleep(30)
+            time.sleep(linkedin.loop_timeout)
             x += 1
 
     except KeyboardInterrupt:

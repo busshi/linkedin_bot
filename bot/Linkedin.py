@@ -30,6 +30,7 @@ class Linkedin:
         self.username = os.getenv('USER_LOGIN')
         self.password = os.getenv('USER_PASS')
         self.token = os.getenv('TFA_SECRET')
+        self.loop_timeout = LONG_TIMEOUT
         self.bot = webdriver.Firefox(options = options)
 
     def exit_failure(self, with_telegram):
@@ -144,14 +145,11 @@ class Linkedin:
        # WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.ID, "ember68")).click()
         WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
         buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
- #       print (buttons)
-#        exit (1)
         #ActionChains(bot).move_to_element(bot.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])).click().perform()
         # buttons = WebDriverWait(bot, timeout = 8).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging']))
         if (len(buttons) > 1):
-        #     print('--->ok')
             time.sleep(3)
-            buttons[2].click()
+            buttons[len(buttons) - 1].click()
 
         while True:
             try:
@@ -172,14 +170,12 @@ class Linkedin:
                             tg.send_message(tg.id, f"✋ New connexion request from {username}", False)
                             self.save_screenshot(icon, username, tg)
 
-                        print('ici')
-                        #element = bot.find_element_by_xpath(xpath)
-                        #bot.execute_script("arguments[0].click();", element)
                         ActionChains(bot).move_to_element(bot.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click().perform()
 #                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion']))).click()
                         #WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
                         WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASS_NAME, DOM_VARIABLES['write_message'])).click()                        
                         self.send_welcome_message(username, with_telegram)
+                        self.loop_timeout = SHORT_TIMEOUT
 
                 break
 
@@ -207,7 +203,9 @@ class Linkedin:
 
                 index = message.text.find(':')
                 action = message.text[index + 2:].lower()
-                username = message.text[:index - 1]
+#                username = message.text[:index - 1]
+
+                username = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_element(By.ID, DOM_VARIABLES['username'])).text
                 
                 contacts_file = open(CONTACTS_FILE, 'r')
                 contacts = contacts_file.read()
@@ -216,10 +214,14 @@ class Linkedin:
                 is_new_contact = False if username in contacts else True
 
                 if not is_bot_muted and is_new_contact:
-                    self.send_welcome_message(username, with_telegram)                    
+                    self.send_welcome_message(username, with_telegram)
+                    self.loop_timeout = SHORT_TIMEOUT
+                    
 
                 elif (not is_bot_muted and not is_new_contact and action in ACTIONS) or (is_bot_muted and action == 'unmute'):
                     self.actions_reply(action, username, with_telegram)
+                    self.loop_timeout = SHORT_TIMEOUT
+
 
         except TimeoutException:
             logging.info('📨 Messages checked...')
