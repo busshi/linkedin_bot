@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 import onetimepass as otp
 from Telegram import *
 from constants import *
@@ -140,11 +141,17 @@ class Linkedin:
         logging.info(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
         bot = self.bot
         bot.get(LINKEDIN_NETWORK_URL)
+       # WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.ID, "ember68")).click()
         WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
-        buttons = WebDriverWait(bot, timeout = 3).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging']))
-        if (len(buttons) == 2):
+        buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
+ #       print (buttons)
+#        exit (1)
+        #ActionChains(bot).move_to_element(bot.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])).click().perform()
+        # buttons = WebDriverWait(bot, timeout = 8).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging']))
+        if (len(buttons) > 1):
+        #     print('--->ok')
             time.sleep(3)
-            buttons[1].click()
+            buttons[2].click()
 
         while True:
             try:
@@ -166,11 +173,12 @@ class Linkedin:
                             self.save_screenshot(icon, username, tg)
 
                         print('ici')
-                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion']))).click()
+                        #element = bot.find_element_by_xpath(xpath)
+                        #bot.execute_script("arguments[0].click();", element)
+                        ActionChains(bot).move_to_element(bot.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click().perform()
+#                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion']))).click()
                         #WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
-                        print('ici2')
-                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASS_NAME, DOM_VARIABLES['write_message'])).click()
-                        print('ici3')
+                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASS_NAME, DOM_VARIABLES['write_message'])).click()                        
                         self.send_welcome_message(username, with_telegram)
 
                 break
@@ -222,7 +230,7 @@ class Linkedin:
         Send welcome message and add contact to list
         """
 
-        logging.ingo(f"{COLORS['orange']}[+] Sending welcome message to {username}{COLORS['clear']}")
+        logging.info(f"{COLORS['orange']}[+] Sending welcome message to {username}{COLORS['clear']}")
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
         for msg in WELCOME_MESSAGE:

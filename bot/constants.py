@@ -37,9 +37,9 @@ DOM_VARIABLES = {
     'new_connexion': 'invitation-card__action-btn',
     'connexion_request': 'artdeco-button--secondary',
     'accept_connexion': "//button[contains(@class, 'artdeco-button artdeco-button--2 artdeco-button--secondary ember-view invitation-card__action-btn')]",
-    'write_message': "//button[contains(@class, 'artdeco-button artdeco-button--1 artdeco-button--tertiary ember-view invitation-inline-confirmation-card__message-cta')]",
+    'write_message': "//button[contains(@class, 'invitation-inline-confirmation-card__message-cta')]",
     'search_conversations': 'search-conversations',
     'search_message_contact': 'msg-conversation-card__content--selectable',
     'unread_message': 'msg-conversation-card__message-snippet--unread',
-    'message_input_form': 'div.msg-form__contenteditable'
+    'message_input_form': 'div.msg-form__contenteditable',
 }
