@@ -144,16 +144,17 @@ class Linkedin:
         bot.get(LINKEDIN_NETWORK_URL)
         
         try:
-            WebDriverWait(bot, timeout = 10).until(EC.presence_of_all_elements_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
-            WebDriverWait(bot, timeout = 10).until(EC.element_to_be_clickable((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
-            buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
+  #          WebDriverWait(bot, timeout = 10).until(EC.presence_of_all_elements_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
+    #    WebDriverWait(bot, timeout = 10).until(EC.element_to_be_clickable((By.CLASS_NAME, DOM_VARIABLES['reduce_messaging'])))
+#        buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
                 #ActionChains(bot).move_to_element(buttons).click().perform()
-            if (len(buttons) > 1):
-                time.sleep(3)
-                buttons[len(buttons) - 1].click()
+#            if (len(buttons) > 1):
+ #               time.sleep(3)
+  #  buttons[len(buttons) - 1].click()
+            WebDriverWait(bot, timeout = 10).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['reduce_messaging'])).click()
 
         except:
-            return
+           return
 
         while True:
             try:
