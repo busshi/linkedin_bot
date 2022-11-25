@@ -63,6 +63,6 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh deploy 'cd $HOME/linkedin/bot && docker-compose pull && docker-compose up -d'
+          ssh deploy 'docker-compose -f $HOME/linkedin_bot/docker-compose.yml up -d'
 
     needs: build

@@ -4,6 +4,8 @@ services:
   linkedin-bot:
     image: busshi/linkedin_bot:latest
 
+    pull_policy: always
+
     container_name: linkedin_bot
 
     volumes:
