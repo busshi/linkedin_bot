@@ -22,7 +22,6 @@ def run(args):
         x = 0
         while True:
             linkedin.is_logged_in(with_telegram)
-            print(linkedin.loop_timeout)
             if x == 10:
                 x = 0
                 linkedin.loop_timeout = LONG_TIMEOUT

@@ -142,18 +142,22 @@ class Linkedin:
         logging.info(f"{COLORS['orange']}[+] Checking new connexions requests...{COLORS['clear']}")
         bot = self.bot
         bot.get(LINKEDIN_NETWORK_URL)
-       # WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.ID, "ember68")).click()
-        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
-        buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
-        #ActionChains(bot).move_to_element(bot.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])).click().perform()
-        # buttons = WebDriverWait(bot, timeout = 8).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging']))
-        if (len(buttons) > 1):
-            time.sleep(3)
-            buttons[len(buttons) - 1].click()
+        
+        try:
+            WebDriverWait(bot, timeout = 10).until(EC.presence_of_all_elements_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
+            WebDriverWait(bot, timeout = 10).until(EC.element_to_be_clickable((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
+            buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
+                #ActionChains(bot).move_to_element(buttons).click().perform()
+            if (len(buttons) > 1):
+                time.sleep(3)
+                buttons[len(buttons) - 1].click()
+
+        except:
+            return
 
         while True:
             try:
-                WebDriverWait(bot, timeout = 5).until(lambda d: d.find_elements(By.CLASS_NAME, DOM_VARIABLES['new_connexion']))
+                WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.CLASS_NAME, DOM_VARIABLES['new_connexion']))
             except TimeoutException:
                 logging.info('👥 Network checked')
                 break
@@ -173,7 +177,7 @@ class Linkedin:
                         ActionChains(bot).move_to_element(bot.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click().perform()
 #                        WebDriverWait(bot, timeout = 8).until(EC.presence_of_element_located((By.XPATH, DOM_VARIABLES['accept_connexion']))).click()
                         #WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['accept_connexion'])).click()
-                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CLASS_NAME, DOM_VARIABLES['write_message'])).click()                        
+                        WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['write_message'])).click()                        
                         self.send_welcome_message(username, with_telegram)
                         self.loop_timeout = SHORT_TIMEOUT
 
