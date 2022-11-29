@@ -143,7 +143,7 @@ class Linkedin:
         bot = self.bot
         bot.get(LINKEDIN_NETWORK_URL)
         
-#        try:
+        try:
   #          WebDriverWait(bot, timeout = 10).until(EC.presence_of_all_elements_located((By.XPATH, DOM_VARIABLES['reduce_messaging'])))
     #    WebDriverWait(bot, timeout = 10).until(EC.element_to_be_clickable((By.CLASS_NAME, DOM_VARIABLES['reduce_messaging'])))
 #        buttons = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_elements(By.XPATH, DOM_VARIABLES['reduce_messaging'])) #.click() #.click()
@@ -151,12 +151,13 @@ class Linkedin:
 #            if (len(buttons) > 1):
  #               time.sleep(3)
   #  buttons[len(buttons) - 1].click()
-        WebDriverWait(bot, timeout = 10).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['reduce_messaging'])).click()
-        bot.get(LINKEDIN_NETWORK_URL)
- #           time.sleep(2)
-
-  #      except:
-   #        return
+            WebDriverWait(bot, timeout = 10).until(lambda d: d.find_element(By.XPATH, DOM_VARIABLES['reduce_messaging'])).click()
+            time.sleep(2)
+            bot.get(LINKEDIN_NETWORK_URL)
+ 
+        except:
+            logging.info('👥 Network skipped')
+            return
 
         while True:
             try:
