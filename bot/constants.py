@@ -33,7 +33,7 @@ DOM_VARIABLES = {
     'login_password': 'session_password',
     'human_check': "//*[text()='Procédons à une petite vérification de sécurité']",
     'tfa_pin': 'input__phone_verification_pin',
-    'reduce_messaging': "//button[contains(@class, 'msg-overlay-bubble-header__button truncate')]",
+    'reduce_messaging': "//*[text()='Messagerie']",
     'new_connexion': 'invitation-card__action-btn',
     'connexion_request': 'artdeco-button--secondary',
     'accept_connexion': "//button[contains(@class, 'artdeco-button artdeco-button--2 artdeco-button--secondary ember-view invitation-card__action-btn')]",
