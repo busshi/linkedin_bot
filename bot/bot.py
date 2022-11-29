@@ -3,6 +3,7 @@
 
 import time, sys
 from dotenv import load_dotenv
+from pyvirtualdisplay import Display
 from Linkedin import *
 
 load_dotenv()
@@ -11,6 +12,8 @@ def run(args):
     try:
         with_telegram = True if '--telegram' in args else False
         headless = True if '--headless' in args else False
+        display = Display(visible=0, size=(1980, 1200))
+        display.start()
         linkedin = Linkedin(headless)
         if os.path.exists(COOKIES_FILE):
             linkedin.bot.get(LINKEDIN_URL)

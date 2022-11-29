@@ -2,3 +2,4 @@ selenium
 onetimepass
 requests
 python-dotenv
+pyvirtualdisplay
