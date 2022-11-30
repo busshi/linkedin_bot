@@ -9,8 +9,10 @@ import argparse
 
 load_dotenv()
 
-def run(with_telegram, headless):
+def run(args):
     try:
+        with_telegram = args.telegram
+        headless = args.headless
         # display = Display(visible=0, size=(1980, 1200))
         # display.start()
         print(with_telegram, headless)
@@ -43,7 +45,4 @@ if __name__ == "__main__":
     parser.add_argument("--telegram", "-t", action='store_true', help="with Telegram notifications")
     args = parser.parse_args()
 
-    if len(sys.argv) == 1:
-        run(False, False)
-    elif len(sys.argv) >= 2:
-        run(args.telegram, args.headless)
+    run(args)
