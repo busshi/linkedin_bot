@@ -19,6 +19,6 @@ RUN			chown -R linkedin:linkedin /opt/app/bot
 USER        linkedin
 
 RUN         pip3 install --no-cache-dir selenium onetimepass requests \
-            python-dotenv pyvirtualdisplay
+            python-dotenv
 
 ENTRYPOINT [ "python3", "bot.py", "--telegram", "--headless" ]
