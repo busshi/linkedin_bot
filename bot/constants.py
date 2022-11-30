@@ -16,8 +16,6 @@ COLORS = {
 CONTACTS_FILE = f'{os.getcwd()}/data/contacts.txt'
 COOKIES_FILE = f'{os.getcwd()}/data/.cookies'
 
-ARGS_LIST = ['--headless', '--telegram']
-
 WELCOME_MESSAGE = ['👋', 'Bonjour,', 'Bienvenue dans mon réseau.', 'Si vous voulez en savoir plus sur moi, vous pouvez demander à mon bot quelques informations basiques à l\'aide des commandes suivantes :', '- profile : pour en savoir un peu plus sur moi', '- techno : pour connaître mes technologies préférées', '- dispo : pour connaître mes disponibilités', '- contact : pour communiquer avec et désactiver le bot', '- unmute : pour réactiver le bot après une demande de contact']
 
 ACTIONS = {
