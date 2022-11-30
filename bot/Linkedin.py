@@ -32,6 +32,8 @@ class Linkedin:
         self.token = os.getenv('TFA_SECRET')
         self.loop_timeout = LONG_TIMEOUT
         self.bot = webdriver.Firefox(options = options)
+        #if not headless:
+        self.bot.set_window_size(1980, 1200)
 
     def exit_failure(self, with_telegram):
         """
