@@ -61,6 +61,6 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh deploy 'cd $HOME/linkedin_bot && git stash && git pull && docker-compose restart'
+          ssh deploy 'cd $HOME/linkedin_bot && git stash && git pull && docker-compose pull && docker-compose up --build -d'
 
     needs: build
