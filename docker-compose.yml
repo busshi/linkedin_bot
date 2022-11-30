@@ -12,4 +12,4 @@ services:
       - .env:/opt/app/bot/.env
       - ./data:/opt/app/bot/data
 
-    restart: never
+    restart: on-failure:5
