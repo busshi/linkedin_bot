@@ -213,10 +213,16 @@ class Linkedin:
 
                 index = message.text.find(':')
                 action = message.text[index + 2:].lower()
-#                username = message.text[:index - 1]
+                if action[:2] == '- ':
+                    action = action[2:] 
+                elif action[0] == '-':
+                    action = action[1:] 
 
-                username = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_element(By.ID, DOM_VARIABLES['username'])).text
-                
+                try:
+                    username = WebDriverWait(bot, timeout = 10).until(lambda d: d.find_element(By.ID, DOM_VARIABLES['username'])).text
+                except:
+                    username = message.text[:index - 1]
+
                 contacts_file = open(CONTACTS_FILE, 'r')
                 contacts = contacts_file.read()
                 contacts_file.close()
