@@ -5,15 +5,15 @@ import time, sys
 from dotenv import load_dotenv
 #from pyvirtualdisplay import Display
 from Linkedin import *
+import argparse
 
 load_dotenv()
 
-def run(args):
+def run(with_telegram, headless):
     try:
-        with_telegram = True if '--telegram' in args else False
-        headless = True if '--headless' in args else False
         # display = Display(visible=0, size=(1980, 1200))
         # display.start()
+        print(with_telegram, headless)
         linkedin = Linkedin(headless)
         if os.path.exists(COOKIES_FILE):
             linkedin.bot.get(LINKEDIN_URL)
@@ -38,18 +38,12 @@ def run(args):
         linkedin.bot.quit()
 
 if __name__ == "__main__":
-    args = []
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--headless", action='store_true', help="without vizualisation")
+    parser.add_argument("--telegram", "-t", action='store_true', help="with Telegram notifications")
+    args = parser.parse_args()
+
     if len(sys.argv) == 1:
-        run([])
+        run(False, False)
     elif len(sys.argv) >= 2:
-        for arg in sys.argv:
-            if arg in ARGS_LIST:
-                args.append(arg)
-            elif arg == sys.argv[0]:
-                pass
-            else:
-                print('Usage: ./bot.py [--telegram --headless]')
-                exit (1)
-        run(args)
-    else:
-        print('Usage: ./bot.py [--telegram --headless]')
+        run(args.telegram, args.headless)
