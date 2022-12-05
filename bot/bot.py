@@ -15,7 +15,6 @@ def run(args):
         headless = args.headless
         # display = Display(visible=0, size=(1980, 1200))
         # display.start()
-        print(with_telegram, headless)
         linkedin = Linkedin(headless)
         if os.path.exists(COOKIES_FILE):
             linkedin.bot.get(LINKEDIN_URL)

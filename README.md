@@ -42,6 +42,6 @@ Before use docker, think about login in a virtual environment to get a cookie. I
 
 ## Todos
 
-- [ ] Use Linkedin API to avoid captcha
+- [x] Use Linkedin API to avoid captcha -> [here](https://github.com/busshi/linkedin_bot_api)
 - [x] Dockerize service
 - [ ] Intl

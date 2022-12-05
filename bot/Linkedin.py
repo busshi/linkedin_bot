@@ -205,7 +205,8 @@ class Linkedin:
 
             for message in messages:
                 logging.info('📥 New message:')
-                print (message.text)
+                logging.info (message.text)
+                logging.info(with_telegram)
                 if with_telegram:
                     tg = Telegram()
                     tg.send_message(tg.id, f"📥 New unread message from {message.text}", True)
@@ -279,6 +280,7 @@ class Linkedin:
         bot = self.bot
         input_form = WebDriverWait(bot, timeout = 5).until(lambda d: d.find_element(By.CSS_SELECTOR, DOM_VARIABLES['message_input_form']))
         for msg in ACTIONS[action]:
+            print(msg)
             input_form.send_keys(msg)
             input_form.send_keys(Keys.RETURN)
             time.sleep(1)
