@@ -38,7 +38,7 @@ Before use docker, think about login in a virtual environment to get a cookie. I
 - Sometimes, after login in, you can have a captcha to validate manually. You will have a message in the console and 10 seconds to validate the captcha.
 - As Selenium uses classnames, ids, xpath to find elements, it is possible it will not work anymore in the future without updating DOM_VARIABLES (inside constants.py file). This bot was created to work with a french browser, so classnames are in french...
 - Tested on macOS.
-- Also available on [Dockerhub](https://hub.docker.com/busshi/linkedin_bot)
+- Also available on [Dockerhub](https://hub.docker.com/r/busshi/linkedin_bot)
 
 ## Todos
 
