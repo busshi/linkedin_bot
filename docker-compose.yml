@@ -2,9 +2,11 @@ version: "3"
 
 services:
   linkedin-bot:
-    image: busshi/linkedin_bot:latest
+    # image: busshi/linkedin_bot:latest
 
-    pull_policy: always
+    # pull_policy: always
+
+    build: .
 
     container_name: linkedin_bot
 
@@ -12,4 +14,4 @@ services:
       - .env:/opt/app/bot/.env
       - ./data:/opt/app/bot/data
 
-    restart: on-failure:5
+    restart: on-failure:2

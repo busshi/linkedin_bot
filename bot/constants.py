@@ -16,7 +16,7 @@ COLORS = {
 CONTACTS_FILE = f'{os.getcwd()}/data/contacts.txt'
 COOKIES_FILE = f'{os.getcwd()}/data/.cookies'
 
-WELCOME_MESSAGE = ['👋', 'Bonjour,', 'Bienvenue dans mon réseau.', 'Si vous voulez en savoir plus sur moi, vous pouvez demander à mon bot quelques informations basiques à l\'aide des commandes suivantes :', '- profile : pour en savoir un peu plus sur moi', '- techno : pour connaître mes technologies préférées', '- dispo : pour connaître mes disponibilités', '- contact : pour communiquer avec et désactiver le bot', '- unmute : pour réactiver le bot après une demande de contact']
+WELCOME_MESSAGE = ['👋', 'Bonjour,', 'Bienvenue dans mon réseau.', 'Si vous voulez en savoir plus sur moi, vous pouvez demander à mon bot quelques informations basiques à l\'aide des commandes suivantes :', '- profile : pour en savoir un peu plus sur moi', '- techno : pour connaître mes technologies préférées', '- dispo : pour connaître mes disponibilités', '- contact : pour communiquer avec et désactiver le bot', '- unmute : pour réactiver le bot après une demande de contact', 'Pour information, ce bot tourne sur mon pi et il manque parfois de ressources pour vous répondre ! Un peu de patience...']
 
 ACTIONS = {
     'dispo': ['Je viens de terminer une mission de longue durée mais je suis actuellement disponible à temps plein pour collaborer avec vous.', 'N\'hésitez pas à me contacter directement pour en discuter, je suis assez flexible sur l\'emploi du temps'],
@@ -44,4 +44,4 @@ DOM_VARIABLES = {
 }
 
 LONG_TIMEOUT = 30
-SHORT_TIMEOUT = 3
+SHORT_TIMEOUT = 1
